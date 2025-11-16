@@ -1,0 +1,12 @@
+buildscript { /* vacío con AGP moderno */ }
+
+allprojects {
+  repositories {
+    google()
+    mavenCentral()
+  }
+}
+
+task clean(type: Delete) {
+  delete rootProject.buildDir
+}

@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <TextView
+            android:text="@string/ajustes_titulo"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:paddingBottom="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <EditText
+            android:id="@+id/edtDeviceName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/ajustes_device_name" />
+
+        <EditText
+            android:id="@+id/edtDeviceMac"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/ajustes_device_mac" />
+
+        <EditText
+            android:id="@+id/edtPollHz"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/ajustes_poll_hz"
+            android:inputType="number" />
+
+        <EditText
+            android:id="@+id/edtDefaultStep"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/ajustes_default_step"
+            android:inputType="numberDecimal" />
+
+        <EditText
+            android:id="@+id/edtDefaultFeed"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/ajustes_default_feed"
+            android:inputType="number" />
+
+        <TextView
+            android:text="@string/configuracion_fisica"
+            android:textStyle="bold"
+            android:paddingTop="12dp"
+            android:paddingBottom="4dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <Spinner
+            android:id="@+id/spAxis"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:entries="@array/axis_values" />
+
+        <EditText
+            android:id="@+id/edtMaxTravel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/ajustes_max_travel"
+            android:inputType="numberDecimal" />
+
+        <EditText
+            android:id="@+id/edtMaxFeed"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/ajustes_max_feed"
+            android:inputType="number" />
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/swOffline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/modo_offline"
+            android:paddingTop="8dp" />
+
+        <Button
+            android:id="@+id/btnSave"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/ajustes_guardar" />
+
+        <Button
+            android:id="@+id/btnShareLogs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/ajustes_compartir_logs" />
+    </LinearLayout>
+</ScrollView>
