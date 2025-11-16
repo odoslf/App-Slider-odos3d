@@ -1,0 +1,16 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/nav_basico"    android:title="@string/nav_basico" />
+    <item android:id="@+id/nav_avanzado"  android:title="@string/nav_avanzado" />
+    <item android:id="@+id/nav_manual"    android:title="@string/nav_manual" />
+    <item
+        android:id="@+id/nav_scenes"
+        android:icon="@drawable/ic_movie"
+        android:title="@string/escenas" />
+    <item
+        android:id="@+id/galleryFragment"
+        android:icon="@drawable/ic_movie"
+        android:title="@string/nav_gallery" />
+    <item android:id="@+id/camaraFragment"    android:title="@string/nav_camara" />
+    <item android:id="@+id/nav_timelapse" android:title="@string/nav_timelapse" />
+    <item android:id="@+id/nav_ajustes"   android:title="@string/nav_ajustes" />
+</menu>
