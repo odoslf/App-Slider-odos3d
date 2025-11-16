@@ -44,6 +44,8 @@ class ManualFragment : Fragment(), GrblListener {
     private var pollHz: Int = 4
     private var defaultStep: Float = 1f
     private var defaultFeed: Int = 300
+    private var maxFeed: Int = 1500
+    private var offlineMode: Boolean = false
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentManualBinding.inflate(inflater, container, false)
@@ -107,6 +109,12 @@ class ManualFragment : Fragment(), GrblListener {
         }
         viewLifecycleOwner.lifecycleScope.launch {
             settings.defaultFeed.collectLatest { defaultFeed = it }
+        }
+        viewLifecycleOwner.lifecycleScope.launch {
+            settings.maxFeed.collectLatest { maxFeed = it }
+        }
+        viewLifecycleOwner.lifecycleScope.launch {
+            settings.offlineMode.collectLatest { offlineMode = it }
         }
     }
 
@@ -181,6 +189,10 @@ class ManualFragment : Fragment(), GrblListener {
     }
 
     private fun jog(axis: Char, sign: Float) {
+        if (offlineMode) {
+            Toast.makeText(requireContext(), getString(R.string.modo_offline), Toast.LENGTH_SHORT).show()
+            return
+        }
         val now = System.currentTimeMillis()
         if (now - lastJogMs < 250L) return
 
@@ -190,12 +202,12 @@ class ManualFragment : Fragment(), GrblListener {
             Toast.makeText(requireContext(), getString(R.string.step_invalido), Toast.LENGTH_SHORT).show()
             return
         }
-        if (feed !in 1..1500) {
+        if (feed !in 1..maxFeed) {
             Toast.makeText(requireContext(), getString(R.string.feed_invalido), Toast.LENGTH_SHORT).show()
             return
         }
 
-        val cmd = "${'$'}J=G21 G91 ${axis}${"%.3f".format(sign * step)} F${feed.coerceIn(1, 1500)}"
+        val cmd = "${'$'}J=G21 G91 ${axis}${"%.3f".format(sign * step)} F${feed.coerceIn(1, maxFeed)}"
         lastJogMs = now
         jogActive = true
         client.sendLine(cmd)
