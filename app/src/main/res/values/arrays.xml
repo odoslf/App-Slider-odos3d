@@ -1,0 +1,7 @@
+<resources>
+    <string-array name="axis_values">
+        <item>X</item>
+        <item>Y</item>
+        <item>Z</item>
+    </string-array>
+</resources>
