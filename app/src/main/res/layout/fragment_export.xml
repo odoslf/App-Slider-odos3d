@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    android:background="@color/md_bg">
+
+    <TextView
+        android:id="@+id/tCount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:textColor="@color/md_text"
+        android:text="@string/seleccion_fotos"/>
+
+    <EditText
+        android:id="@+id/edtFps"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:hint="@string/fps_sugerido_24"
+        android:text="24"
+        android:textColor="@color/md_text"
+        android:textColorHint="@color/md_text"
+        android:layout_marginTop="12dp"/>
+
+    <EditText
+        android:id="@+id/edtWidth"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:hint="@string/ancho_escala_opcional"
+        android:textColor="@color/md_text"
+        android:textColorHint="@color/md_text"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnExport"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/exportar_mp4"
+        android:layout_marginTop="16dp"/>
+</LinearLayout>

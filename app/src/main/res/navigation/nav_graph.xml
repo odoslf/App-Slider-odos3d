@@ -1,0 +1,82 @@
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/nav_basico">
+
+    <fragment
+        android:id="@+id/nav_basico"
+        android:name="com.odos3d.slider.ui.BasicoFragment"
+        android:label="@string/nav_basico">
+        <action
+            android:id="@+id/action_common_forward"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_avanzado"
+        android:name="com.odos3d.slider.ui.AvanzadoFragment"
+        android:label="@string/nav_avanzado" />
+
+    <fragment
+        android:id="@+id/nav_manual"
+        android:name="com.odos3d.slider.ui.ManualFragment"
+        android:label="@string/nav_manual" />
+
+    <fragment
+        android:id="@+id/nav_scenes"
+        android:name="com.odos3d.slider.ui.ScenesFragment"
+        android:label="@string/escenas" >
+        <action
+            android:id="@+id/action_scenes_to_camara"
+            app:destination="@id/camaraFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/galleryFragment"
+        android:name="com.odos3d.slider.ui.GalleryFragment"
+        android:label="@string/nav_gallery" />
+
+    <fragment
+        android:id="@+id/exportFragment"
+        android:name="com.odos3d.slider.ui.ExportFragment"
+        android:label="@string/exportar_mp4" />
+
+    <fragment
+        android:id="@+id/camaraFragment"
+        android:name="com.odos3d.slider.ui.CamaraFragment"
+        android:label="@string/nav_camara">
+        <argument
+            android:name="autoIntervalSec"
+            android:defaultValue="0"
+            app:argType="integer" />
+        <argument
+            android:name="autoStart"
+            android:defaultValue="false"
+            app:argType="boolean" />
+        <argument
+            android:name="presetTitle"
+            android:defaultValue=""
+            app:argType="string" />
+        <argument
+            android:name="presetId"
+            android:defaultValue=""
+            app:argType="string" />
+        <argument
+            android:name="runMovementInCamera"
+            android:defaultValue="true"
+            app:argType="boolean" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_timelapse"
+        android:name="com.odos3d.slider.ui.TimelapseFragment"
+        android:label="@string/nav_timelapse" />
+
+    <fragment
+        android:id="@+id/nav_ajustes"
+        android:name="com.odos3d.slider.ui.AjustesFragment"
+        android:label="@string/nav_ajustes" />
+</navigation>

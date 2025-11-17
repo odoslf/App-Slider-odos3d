@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Slider-Odos3D</string>
+    <string name="ajustes_titulo">Ajustes</string>
+    <string name="ajustes_device_name">Nombre del dispositivo</string>
+    <string name="ajustes_device_mac">MAC del dispositivo</string>
+    <string name="ajustes_poll_hz">Frecuencia de sondeo (Hz)</string>
+    <string name="ajustes_default_step">Paso por defecto (mm)</string>
+    <string name="ajustes_default_feed">Velocidad por defecto (mm/min)</string>
+    <string name="ajustes_axis_default">Eje por defecto (X/Y/Z)</string>
+    <string name="ajustes_max_travel">Recorrido máx. (mm)</string>
+    <string name="ajustes_max_feed">Velocidad máx. (mm/min)</string>
+    <string name="modo_offline">Modo offline (simulación, no mueve el slider)</string>
+    <string name="ajustes_guardar">Guardar</string>
+    <string name="ajustes_compartir_logs">Compartir logs</string>
+    <string name="configuracion_fisica">Configuración física del slider</string>
+
+    <!-- Navegación principal -->
+    <string name="nav_basico">Básico</string>
+    <string name="nav_avanzado">Avanzado</string>
+    <string name="nav_manual">Manual</string>
+    <string name="nav_camara">Cámara</string>
+    <string name="escenas">Escenas</string>
+    <string name="nav_gallery">Galería</string>
+    <string name="nav_timelapse">Timelapse</string>
+    <string name="nav_ajustes">Ajustes</string>
+    <string name="titulo_app">Slider-odos3d</string>
+    <string name="estado_general">Estado general</string>
+    <string name="panel_avanzado">Panel avanzado</string>
+    <string name="ir_manual">Ir a Manual</string>
+    <string name="ir_camara">Ir a Cámara</string>
+    <string name="ir_escenas">Ir a Escenas</string>
+
+    <!-- Mensajes generales -->
+    <string name="sin_conexion">Sin conexión</string>
+    <string name="conectando">Conectando…</string>
+    <string name="seleccionar_dispositivo">Selecciona un dispositivo</string>
+    <string name="permiso_necesario">Permiso requerido para continuar</string>
+    <string name="listo">Listo</string>
+
+    <!-- Placeholders de secciones -->
+    <string name="ph_basico">Panel básico: ejecutar escenas predefinidas y vista rápida de estado.</string>
+    <string name="ph_avanzado">Panel avanzado: editor de escenas, keyframes y simulador.</string>
+    <string name="ph_manual">Control manual GRBL (jog, home, unlock, RT).</string>
+    <string name="ph_camara">Vista previa y controles de cámara (bloqueos AE/AF/WB).</string>
+    <string name="ph_timelapse">Timelapse offline por intervalos y exportación a MP4 (FFmpegKit).</string>
+    <string name="ph_ajustes">Ajustes BT/GRBL, alias del equipo (Brutus), límites y polling.</string>
+
+    <!-- Conexión -->
+    <string name="conexion">Conexión</string>
+    <string name="buscar_dispositivos">Buscar</string>
+    <string name="conectar">Conectar</string>
+    <string name="desconectar">Desconectar</string>
+
+    <!-- Manual / GRBL -->
+    <string name="step_invalido">Paso inválido</string>
+    <string name="feed_invalido">Velocidad inválida</string>
+    <string name="requiere_home">Recuerda realizar $H (homing) antes de movimientos absolutos.</string>
+    <string name="fuera_limites">Fuera de límites (%1$.0f–%2$.0f mm)</string>
+    <string name="velocidad_excedida">Velocidad excede %1$d mm/min</string>
+
+    <!-- Cámara -->
+    <string name="camara">Cámara</string>
+    <string name="escena_actual">Escena seleccionada</string>
+    <string name="intervalo_seg">Intervalo (s)</string>
+    <string name="iniciar">Iniciar</string>
+    <string name="detener">Detener</string>
+    <string name="capturas">Capturas</string>
+    <string name="estado_capturando">Capturando cada %1$ds…</string>
+    <string name="estado_fotos">Fotos: %1$d (última: %2$s)</string>
+    <string name="auto_start_msg">Auto-start con intervalo de %1$ds</string>
+
+    <!-- Timelapse / Export -->
+    <string name="timelapse">Time-lapse</string>
+    <string name="exportar_video">Exportar vídeo</string>
+    <string name="fps">FPS</string>
+    <string name="carpeta_salida">Carpeta de salida</string>
+    <string name="guardado">Guardado</string>
+    <string name="export_en_progreso">Exportando…</string>
+    <string name="export_ok">Exportación completada</string>
+    <string name="export_error">Error al exportar</string>
+    <string name="timelapse_info">Gestiona tus capturas: revisa la galería para seleccionar fotos y exportar a MP4.</string>
+
+    <!-- Escenas -->
+    <string name="escenas_preset_header">Preajustes de time-lapse</string>
+    <string name="preset_started">Escena “%1$s” iniciada</string>
+    <string name="preset_auto_started">Auto-inicio de timelapse activo</string>
+    <string name="preset_started_interval">Intervalo: %1$ds</string>
+    <string name="error_envio">Error al enviar comando</string>
+
+    <!-- Galería / Exportación -->
+    <string name="recargar">Recargar</string>
+    <string name="exportar">Exportar</string>
+    <string name="sin_fotos">No hay fotos en la carpeta del proyecto.</string>
+    <string name="seleccion_fotos">Fotos seleccionadas</string>
+    <string name="fps_sugerido_24">FPS (sugerido 24)</string>
+    <string name="ancho_escala_opcional">Ancho (px) para escalar, 0 = original</string>
+    <string name="exportar_mp4">Exportar a MP4</string>
+
+    <!-- Ajustes -->
+    <string name="aj_bt_titulo">Bluetooth</string>
+    <string name="aj_bt_dispositivo">Dispositivo no seleccionado</string>
+    <string name="aj_bt_dispositivo_val">Dispositivo: %1$s (%2$s)</string>
+    <string name="aj_bt_elegir">Elegir dispositivo</string>
+    <string name="aj_grbl_titulo">GRBL</string>
+    <string name="aj_grbl_autohome">Auto-homing al conectar</string>
+    <string name="aj_poll_hz">Frecuencia de estado (Hz)</string>
+    <string name="aj_jog_step_mm">Paso jog por defecto (mm)</string>
+    <string name="aj_feed_max">Velocidad máxima (mm/min)</string>
+    <string name="aj_lim_min">Límite mínimo (mm)</string>
+    <string name="aj_lim_max">Límite máximo (mm)</string>
+    <string name="aj_grbl_baud_info">Baudios GRBL (informativo)</string>
+    <string name="aj_watchdog_titulo">Conexión</string>
+    <string name="aj_auto_reconnect">Auto-reconexión BT/GRBL</string>
+    <string name="aj_reconnect_secs">Intervalo reconexión (s)</string>
+    <string name="guardar">Guardar</string>
+    <string name="guardado_ok">Guardado</string>
+    <string name="scan_finished">Búsqueda finalizada</string>
+    <string name="aj_diag_titulo">Diagnóstico</string>
+    <string name="estado_conectado">Conectado</string>
+    <string name="estado_conectando">Conectando…</string>
+    <string name="estado_desconectado">Sin conexión</string>
+    <string name="estado_alarma">Alarma</string>
+    <string name="bt_connected">Conectado</string>
+    <string name="bt_disconnected">Desconectado</string>
+    <string name="share">Compartir</string>
+    <string name="share_logs">Compartir logs</string>
+    <string name="logs_shared_title">Compartir logs</string>
+    <string name="logs_asunto">Logs Slider-odos3d</string>
+    <string name="logs_vacio">No hay registros</string>
+    <string name="logs_shared_ok">Registros compartidos</string>
+    <string name="logs_shared_error">No se pudieron compartir los registros</string>
+    <string name="borrar_logs">Borrar logs</string>
+    <string name="logs_borrados">Logs borrados</string>
+    <string name="aj_permisos_info">Permisos requeridos: Conexión necesita BLUETOOTH_CONNECT/SCAN en Android 12L+, y la cámara requiere CAMERA para timelapse.</string>
+    <string name="dispositivo_no_seleccionado">— (sin dispositivo)</string>
+    <string name="step_mm">Paso (mm)</string>
+    <string name="feed_mm_min">Velocidad (mm/min)</string>
+    <string name="cancelar_jog">Cancelar Jog</string>
+    <string name="home">Home ($H)</string>
+    <string name="unlock">Unlock ($X)</string>
+    <string name="reset">Reset</string>
+    <string name="pause">Pausa</string>
+    <string name="resume">Reanudar</string>
+    <string name="abrir_selector_dispositivo">Abrir selector de dispositivos…</string>
+    <string name="logs_shared">Logs compartidos</string>
+    <string name="info_limits">Eje: %1$s · Recorrido: 0–%2$.0f mm · Feed máx: %3$d</string>
+    <string name="info_defaults">Paso por defecto: %1$.2f mm · Feed por defecto: %2$d mm/min</string>
+</resources>
