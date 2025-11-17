@@ -15,6 +15,7 @@ import com.odos3d.slider.R
 import com.odos3d.slider.databinding.FragmentManualBinding
 import com.odos3d.slider.grbl.GrblClient
 import com.odos3d.slider.grbl.GrblListener
+import com.odos3d.slider.grbl.GrblProvider
 import com.odos3d.slider.grbl.GrblStatus
 import com.odos3d.slider.link.BtTransport
 import com.odos3d.slider.settings.SettingsStore
@@ -45,7 +46,13 @@ class ManualFragment : Fragment(), GrblListener {
     private var defaultStep: Float = 1f
     private var defaultFeed: Int = 300
     private var maxFeed: Int = 1500
+    private var maxTravel: Float = 400f
+    private var axisDefault: String = "X"
     private var offlineMode: Boolean = false
+
+    private val positionsMm = mutableMapOf<Char, Float>().apply {
+        this['X'] = 0f; this['Y'] = 0f; this['Z'] = 0f
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentManualBinding.inflate(inflater, container, false)
@@ -114,11 +121,21 @@ class ManualFragment : Fragment(), GrblListener {
             settings.maxFeed.collectLatest { maxFeed = it }
         }
         viewLifecycleOwner.lifecycleScope.launch {
+            settings.maxTravelMm.collectLatest { maxTravel = it }
+        }
+        viewLifecycleOwner.lifecycleScope.launch {
+            settings.axisDefault.collectLatest { axisDefault = it }
+        }
+        viewLifecycleOwner.lifecycleScope.launch {
             settings.offlineMode.collectLatest { offlineMode = it }
         }
     }
 
     private fun startConnection() {
+        if (offlineMode) {
+            Toast.makeText(requireContext(), getString(R.string.modo_offline), Toast.LENGTH_SHORT).show()
+            return
+        }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S &&
             ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.BLUETOOTH_CONNECT) !=
             android.content.pm.PackageManager.PERMISSION_GRANTED
@@ -139,6 +156,7 @@ class ManualFragment : Fragment(), GrblListener {
             binding.btnConnect.isEnabled = true
             if (ok) {
                 binding.statusChip.setState(StatusChipView.State.CONNECTED)
+                GrblProvider.client = client
                 startPolling()
                 updateJogControls()
             } else {
@@ -151,6 +169,7 @@ class ManualFragment : Fragment(), GrblListener {
     private fun disconnect() {
         stopPolling()
         client.disconnect()
+        GrblProvider.client = null
         onDisconnectUi()
     }
 
@@ -207,16 +226,34 @@ class ManualFragment : Fragment(), GrblListener {
             return
         }
 
+        val currentPos = positionsMm[axis] ?: 0f
+        val candidate = currentPos + (sign * step)
+        if (candidate < 0f || candidate > maxTravel) {
+            Toast.makeText(
+                requireContext(),
+                getString(R.string.fuera_limites, 0f, maxTravel),
+                Toast.LENGTH_SHORT
+            ).show()
+            return
+        }
+
         val cmd = "${'$'}J=G21 G91 ${axis}${"%.3f".format(sign * step)} F${feed.coerceIn(1, maxFeed)}"
         lastJogMs = now
         jogActive = true
         client.sendLine(cmd)
+        positionsMm[axis] = candidate
         updateJogControls()
     }
 
     private fun updateTitle() {
         val mac = if (deviceMac.isBlank()) "—" else deviceMac
         binding.tDevice.text = "$deviceName ($mac)"
+        binding.tLimits.text = getString(
+            R.string.info_limits,
+            axisDefault,
+            maxTravel,
+            maxFeed
+        )
     }
 
     private fun updateJogControls() {
@@ -238,6 +275,7 @@ class ManualFragment : Fragment(), GrblListener {
         if (jogActive) client.cancelJog()
         stopPolling()
         client.disconnect()
+        GrblProvider.client = null
         onDisconnectUi()
     }
 

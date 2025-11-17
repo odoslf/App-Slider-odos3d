@@ -137,4 +137,5 @@
     <string name="resume">Reanudar</string>
     <string name="abrir_selector_dispositivo">Abrir selector de dispositivos…</string>
     <string name="logs_shared">Logs compartidos</string>
+    <string name="info_limits">Eje: %1$s · Recorrido: 0–%2$.0f mm · Feed máx: %3$d</string>
 </resources>

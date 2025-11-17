@@ -25,6 +25,11 @@ object Logger {
     }
 
     @Synchronized
+    fun w(tag: String, message: String) {
+        append("W/$tag: $message")
+    }
+
+    @Synchronized
     fun log(message: String) {
         append(message)
     }

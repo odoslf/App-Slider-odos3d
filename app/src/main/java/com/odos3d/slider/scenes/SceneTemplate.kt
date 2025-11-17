@@ -5,7 +5,12 @@ data class SceneTemplate(
     val title: String,
     val intervalSec: Int,
     val durationMin: Int,
-    val description: String
+    val description: String,
+    val stepMmPerShot: Float = 5f,
+    val axis: String = "X",
+    val moveBeforeShot: Boolean = true,
+    val settleMs: Long = 250L,
+    val feedMmMin: Int = 800
 )
 
 object SceneTemplates {

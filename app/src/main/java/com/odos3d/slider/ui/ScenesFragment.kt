@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -13,13 +14,18 @@ import com.google.android.material.snackbar.Snackbar
 import com.odos3d.slider.R
 import com.odos3d.slider.databinding.FragmentScenesBinding
 import com.odos3d.slider.databinding.ItemSceneBinding
+import com.odos3d.slider.grbl.GrblProvider
+import com.odos3d.slider.scenes.SceneRunner
 import com.odos3d.slider.scenes.SceneTemplate
 import com.odos3d.slider.scenes.SceneTemplates
+import com.odos3d.slider.settings.SettingsStore
+import kotlinx.coroutines.launch
 
 class ScenesFragment : Fragment() {
 
     private var _binding: FragmentScenesBinding? = null
     private val binding get() = _binding!!
+    private lateinit var settings: SettingsStore
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -32,6 +38,7 @@ class ScenesFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        settings = SettingsStore.get(requireContext())
         binding.recycler.layoutManager = LinearLayoutManager(requireContext())
         binding.recycler.adapter = ScenesAdapter(SceneTemplates.all) { template ->
             showPresetSnack(template.title, template.intervalSec, autoStart = true)
@@ -39,8 +46,10 @@ class ScenesFragment : Fragment() {
                 "presetTitle" to template.title,
                 "autoIntervalSec" to template.intervalSec,
                 "autoStart" to true,
+                "presetId" to template.id,
             )
             findNavController().navigate(R.id.camaraFragment, args)
+            launchSceneIfPossible(template)
         }
     }
 
@@ -63,6 +72,14 @@ class ScenesFragment : Fragment() {
         Snackbar.make(targetView, getString(R.string.preset_started_interval, intervalSec), Snackbar.LENGTH_SHORT)
             .apply { anchor?.let { setAnchorView(it) } }
             .show()
+    }
+
+    private fun launchSceneIfPossible(template: SceneTemplate) {
+        val grbl = GrblProvider.client ?: return
+        viewLifecycleOwner.lifecycleScope.launch {
+            val runner = SceneRunner(viewLifecycleOwner.lifecycleScope, settings) { GrblProvider.client }
+            runner.runPreset(template)
+        }
     }
 
     private class ScenesAdapter(

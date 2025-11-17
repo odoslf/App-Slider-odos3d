@@ -13,9 +13,14 @@ import com.google.android.material.snackbar.Snackbar
 import com.odos3d.slider.R
 import com.odos3d.slider.camera.TimelapseController
 import com.odos3d.slider.databinding.FragmentCamaraBinding
+import com.odos3d.slider.grbl.GrblProvider
 import com.odos3d.slider.link.LinkPermissions
+import com.odos3d.slider.scenes.SceneTemplates
+import com.odos3d.slider.scenes.ScenesRunner
+import com.odos3d.slider.settings.SettingsStore
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlin.math.max
 
 class CamaraFragment : Fragment() {
 
@@ -23,10 +28,14 @@ class CamaraFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var controller: TimelapseController
+    private lateinit var settings: SettingsStore
+    private var runner: ScenesRunner? = null
 
     private var autoIntervalSec: Int? = null
     private var autoStart: Boolean = false
     private var presetTitle: String? = null
+    private var presetId: String? = null
+    private val preset by lazy { presetId?.let { id -> SceneTemplates.all.find { it.id == id } } }
     private var shots = 0
 
     private val camPerm = registerForActivityResult(ActivityResultContracts.RequestPermission()) {
@@ -40,6 +49,7 @@ class CamaraFragment : Fragment() {
             autoIntervalSec = args.getInt("autoIntervalSec", -1).takeIf { it > 0 }
             autoStart = args.getBoolean("autoStart", false)
             presetTitle = args.getString("presetTitle")
+            presetId = args.getString("presetId")
         }
     }
 
@@ -49,12 +59,32 @@ class CamaraFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        settings = SettingsStore.get(requireContext())
         controller = TimelapseController(
             fragment = this,
             previewView = binding.preview
         ) { name ->
             shots++
             binding.tStatus.text = getString(R.string.estado_fotos, shots, name)
+        }
+
+        runner = ScenesRunner(viewLifecycleOwner.lifecycleScope, settings) { GrblProvider.client }
+
+        controller.onBeforeCapture = { shot, total ->
+            val tpl = preset
+            if (tpl != null && tpl.moveBeforeShot) {
+                viewLifecycleOwner.lifecycleScope.launch {
+                    runner?.moveOnce(tpl)
+                }
+            }
+        }
+        controller.onAfterCapture = { shot, total ->
+            val tpl = preset
+            if (tpl != null && !tpl.moveBeforeShot) {
+                viewLifecycleOwner.lifecycleScope.launch {
+                    runner?.moveOnce(tpl)
+                }
+            }
         }
 
         // UI de contexto del preset
@@ -88,7 +118,9 @@ class CamaraFragment : Fragment() {
         shots = 0
         lifecycleScope.launch {
             controller.bindIfNeeded()
-            controller.start(intervalSec = interval, presetTitle = presetTitle)
+            val totalShots = preset?.let { tpl -> max(1, (tpl.durationMin * 60) / tpl.intervalSec) }
+            runner?.resetProgress()
+            controller.start(intervalSec = interval, totalShots = totalShots, presetTitle = presetTitle)
             binding.tStatus.text = getString(R.string.estado_capturando, interval)
         }
     }

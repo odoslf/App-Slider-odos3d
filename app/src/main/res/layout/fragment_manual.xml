@@ -62,12 +62,19 @@
                     android:text="@string/desconectar" />
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/tState"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/sin_conexion"
-                android:paddingBottom="12dp" />
+        <TextView
+            android:id="@+id/tState"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/sin_conexion"
+            android:paddingBottom="4dp" />
+
+        <TextView
+            android:id="@+id/tLimits"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?attr/textAppearanceBodySmall"
+            android:paddingBottom="12dp" />
 
             <LinearLayout
                 android:layout_width="match_parent"

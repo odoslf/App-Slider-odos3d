@@ -60,6 +60,10 @@
             android:name="presetTitle"
             android:defaultValue=""
             app:argType="string" />
+        <argument
+            android:name="presetId"
+            android:defaultValue=""
+            app:argType="string" />
     </fragment>
 
     <fragment

@@ -192,4 +192,10 @@ class GrblClient(
         watchdogJob?.cancel()
         watchdogJob = null
     }
+
+    suspend fun sendJogIncremental(axis: String, deltaMm: Float, feedMmMin: Int) {
+        val ax = axis.uppercase().take(1)
+        val delta = String.format("%.4f", deltaMm)
+        sendLineBlocking("\$J=G91 G21 F${feedMmMin.coerceAtLeast(1)} ${ax}${delta}")
+    }
 }

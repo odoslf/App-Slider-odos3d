@@ -25,7 +25,7 @@ import java.util.concurrent.Executor
 class TimelapseController(
     private val fragment: Fragment,
     private val previewView: PreviewView,
-    private val onCaptureSaved: (String) -> Unit = {}
+    private val onCaptureSaved: (String) -> Unit = {},
 ) {
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Main)
     private var imageCapture: ImageCapture? = null
@@ -33,6 +33,9 @@ class TimelapseController(
     private var isBound = false
     private var isRunning = false
     private val mainExecutor: Executor by lazy { ContextCompat.getMainExecutor(fragment.requireContext()) }
+
+    var onBeforeCapture: ((Int, Int?) -> Unit)? = null
+    var onAfterCapture: ((Int, Int?) -> Unit)? = null
 
     suspend fun bindIfNeeded() {
         if (isBound) return
@@ -50,20 +53,26 @@ class TimelapseController(
         isBound = true
     }
 
-    fun start(intervalSec: Int, presetTitle: String? = null) {
+    fun start(intervalSec: Int, totalShots: Int? = null, presetTitle: String? = null) {
         if (intervalSec <= 0) return
         if (isRunning) return
         isRunning = true
         val safeTitle = presetTitle?.takeIf { it.isNotBlank() }?.replace("\\s+".toRegex(), "_") ?: "Timelapse"
         runningJob = scope.launch(Dispatchers.Main) {
-            // Primer pequeño delay para asegurar preview lista
             delay(200)
+            var shotIndex = 0
+            val limit = totalShots
             while (isActive && isRunning) {
+                onBeforeCapture?.invoke(shotIndex, limit)
                 takePhoto(fragment.requireContext(), safeTitle)
-                // Intervalo mínimo 1s
+                onAfterCapture?.invoke(shotIndex, limit)
+                shotIndex++
+                if (limit != null && shotIndex >= limit) {
+                    isRunning = false
+                    break
+                }
                 val sleep = (intervalSec.coerceAtLeast(1) * 1000L)
                 var remain = sleep
-                // Salida suave si paran durante el intervalo
                 while (remain > 0 && isActive && isRunning) {
                     delay(minOf(remain, 200L))
                     remain -= 200L
@@ -80,7 +89,6 @@ class TimelapseController(
 
     fun shutdown() {
         stop()
-        // Unbind lo gestiona el provider al destruir el lifecycle; aquí no forzamos nada.
     }
 
     private fun takePhoto(context: Context, titlePrefix: String) {
@@ -100,7 +108,7 @@ class TimelapseController(
                 onCaptureSaved(name)
             }
             override fun onError(exception: ImageCaptureException) {
-                // No detenemos el bucle por un error puntual; si se repite, el usuario verá que no aumenta el contador.
+                // error puntual, se seguirá intentando en el siguiente tick
             }
         })
     }
